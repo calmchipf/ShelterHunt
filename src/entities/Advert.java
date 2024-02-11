@@ -1,22 +1,28 @@
 package entities;
 
-public class Adverts {
-    public int id;
-    public string address;
-    public string location;
-    public int price;
-    public int photos_id;
-    public string description;
-    public int review_id;
+import java.util.ArrayList;
 
-    public Adverts(int id, string address, string location, int price, int photos_id, string description, int review_id){
-        this.id = id;
-        this.address = address;
-        this.location = location;
-        this.price = price;
-        this.photos_id = photos_id;
-        this.description = description;
-        this.review_id = review_id;
+public class Advert {
+    private int id;
+    private String address;
+    private String location;
+    private int price;
+    private String description;
+    private ArrayList<Integer> photos_ids = new ArrayList<Integer>();
+    private ArrayList<Integer> review_ids = new ArrayList<Integer>();
+
+    public Advert(){}
+
+    public Advert(int id){
+        setId(id);
+    }
+
+    public Advert(int id, String address, String location, int price, String description){
+        setId(id);
+        setAddress(address);
+        setLocation(location);
+        setPrice(price);
+        setDescription(description);
     }
     // Getters and setters
     public int getId(){
@@ -25,40 +31,40 @@ public class Adverts {
     public void setId(int id){
         this.id = id;
     }
-    public string getAddress(){
+    public String getAddress(){
         return address;
     }
-    public void setAddress(string address){
+    public void setAddress(String address){
         this.address = address;
     }
-    public string getLocation(){
+    public String getLocation(){
         return location;
     }
-    public void setLocation(string location){
+    public void setLocation(String location){
         this.location = location;
     }
     public int getPrice(){
         return price;
     }
-    public void setPrice(int price){
+    public void setPrice(int price) {
         this.price = price;
     }
-    public int getPhotos_id(){
-        return photos_id;
-    }
-    public void setPhotos_id(int photos_id){
-        this.photos_id = photos_id;
-    }
-    public string getDescription(){
+    public String getDescription(){
         return description;
     }
-    public void setDescription(string description){
+    public void setDescription(String description){
         this.description = description;
     }
-    public int getReview_id(){
-        return review_id;
+    public ArrayList<Integer> getPhotos_ids(){
+        return photos_ids;
     }
-    public void setReview_id(int review_id){
-        this.review_id = review_id;
+    public void addPhoto (int photos_id){
+        photos_ids.add(photos_id);
+    }
+    public ArrayList<Integer> getReview_ids(){
+        return review_ids;
+    }
+    public void addReview_id(int review_id){
+        review_ids.add(review_id);
     }
 }

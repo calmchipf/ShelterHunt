@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class User {
     private int id;
     private String name;
@@ -7,28 +9,26 @@ public class User {
     private boolean gender;
     private int date_of_birth;
     private int phone_number;
-    private int owned_adverts;
-    private int fav_adverts;
-    private int review_ids;
+    private ArrayList<Integer> owned_adverts_ids = new ArrayList<Integer>();
+    private ArrayList<Integer> fav_adverts_ids = new ArrayList<Integer>();
+    private ArrayList<Integer> review_ids = new ArrayList<Integer>();
 
+    public User(){}
+    public User(int id){
+        setId(id);
+    }
     public User(int id,
                 String name,
                 String surname,
                 boolean gender,
                 int date_of_birth,
-                int phone_number,
-                int owned_adverts,
-                int fav_adverts,
-                int review_ids) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this. gender = gender;
-        this.date_of_birth = date_of_birth;
-        this.phone_number = phone_number;
-        this.owned_adverts = owned_adverts;
-        this.fav_adverts = fav_adverts;
-        this.review_ids = review_ids;
+                int phone_number) {
+        setId(id);
+        setName(name);
+        setSurname(surname);
+        setGender(gender);
+        setDate_of_birth(date_of_birth);
+        setPhone_number(phone_number);
     }
 
     //Getters and setters
@@ -68,23 +68,23 @@ public class User {
     public void setPhone_number(int phone_number) {
         this.phone_number = phone_number;
     }
-    public int getOwned_adverts() {
-        return owned_adverts;
+    public ArrayList<Integer> getOwned_adverts() {
+        return owned_adverts_ids;
     }
     public void setOwned_adverts(int owned_adverts) {
-        this.owned_adverts = owned_adverts;
+        owned_adverts_ids.add(owned_adverts);
     }
-    public int getFav_adverts() {
-        return fav_adverts;
+    public ArrayList<Integer> getFav_adverts() {
+        return fav_adverts_ids;
     }
     public void setFav_adverts(int fav_adverts) {
-        this.fav_adverts = fav_adverts;
+        fav_adverts_ids.add(fav_adverts);
     }
-    public int getReview_ids() {
+    public ArrayList<Integer> getReview_ids() {
         return review_ids;
     }
-    public void setReview_ids(int review_ids) {
-        this.review_ids = review_ids;
+    public void addReview_id(int review_id) {
+        review_ids.add(review_id);
     }
 
 }
