@@ -20,15 +20,15 @@ public class User {
                 int owned_adverts,
                 int fav_adverts,
                 int review_ids) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this. gender = gender;
-        this.date_of_birth = date_of_birth;
-        this.phone_number = phone_number;
-        this.owned_adverts = owned_adverts;
-        this.fav_adverts = fav_adverts;
-        this.review_ids = review_ids;
+        setId(id);
+        setName(name);
+        setSurname(surname);
+        setGender(gender);
+        setDate_of_birth(date_of_birth);
+        setPhone_number(phone_number);
+        setOwned_adverts(owned_adverts);
+        setFav_adverts(fav_adverts);
+        setReview_ids(review_ids);
     }
 
     //Getters and setters
