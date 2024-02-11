@@ -24,4 +24,12 @@ public class Photo {
     public void setLink(String link) {
         this.link = link;
     }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "id=" + id +
+                ", link='" + link + '\'' +
+                '}';
+    }
 }
