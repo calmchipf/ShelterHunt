@@ -1,3 +1,9 @@
+import controllers.UserController;
+import data.PostgresDB;
+import data.interfaces.IDB;
+import repositories.UserRepository;
+import repositories.interfaces.IUserRepository;
+
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,12 +20,11 @@ public class Main {
 
             con = DriverManager.getConnection(connectionUrl, "postgres", "ugotitright");
 
-            stmt = con.createStatement();
-
-            rs = stmt.executeQuery("select * from users");
-
-            while (rs.next())
-                System.out.println(rs.getInt("ID") + "  " + rs.getString("Name") + "  " + rs.getString("Surname"));
+            IDB db = new PostgresDB();
+            IUserRepository repo = new UserRepository(db);
+            UserController controller = new UserController(repo);
+            MyApplication app = new MyApplication(controller);
+            app.start();
         }
         catch (Exception e) {
             System.out.println("Exception occurred!");
@@ -33,6 +38,8 @@ public class Main {
         }
 
         System.out.println("Finished!");
+
+
 
 
     }

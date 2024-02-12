@@ -30,7 +30,7 @@ public class UserRepository implements IUserRepository {
             st.setString(1, user.getName());
             st.setString(2, user.getSurname());
             st.setBoolean(3, user.getGender());
-            st.setString(3, user.getDate_of_birth());
+            st.setDate(4, user.getDate_of_birth());
 
             st.execute();
 
@@ -67,7 +67,7 @@ public class UserRepository implements IUserRepository {
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getBoolean("gender"),
-                        rs.getString("date_of_birth"));
+                        rs.getDate("date_of_birth"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("sql error: " + e.getMessage());
@@ -100,7 +100,7 @@ public class UserRepository implements IUserRepository {
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getBoolean("gender"),
-                        rs.getString("date_of_birth"));
+                        rs.getDate("date_of_birth"));
 
                 users.add(user);
             }
@@ -120,13 +120,15 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public List<Advert> getOwnedAdverts() {
+    public List<Advert> getOwnedAdverts(int id) {
         Connection con = null;
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id,address,price,description,photos_ids FROM adverts";
-            Statement st = con.createStatement();
+            String sql = "SELECT id,address,price,description,photos_ids FROM adverts where id=?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setInt(1,id);
 
             ResultSet rs = st.executeQuery(sql);
             List<Advert> adverts = new LinkedList<>();

@@ -1,5 +1,6 @@
 package entities;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class User {
@@ -7,13 +8,12 @@ public class User {
     private String name;
     private String surname;
     private boolean gender;
-    private String date_of_birth;
+    private Date date_of_birth;
     private int phone_number;
     private ArrayList<Integer> owned_adverts_ids = new ArrayList<Integer>();
     private ArrayList<Integer> fav_adverts_ids = new ArrayList<Integer>();
     private ArrayList<Integer> review_ids = new ArrayList<Integer>();
 
-    public User(int id, String name, String surname, boolean gender, String dateOfBirth){}
     public User(int id){
         setId(id);
     }
@@ -21,7 +21,7 @@ public class User {
                 String name,
                 String surname,
                 boolean gender,
-                String date_of_birth,
+                Date date_of_birth,
                 int phone_number) {
         setId(id);
         setName(name);
@@ -29,6 +29,21 @@ public class User {
         setGender(gender);
         setDate_of_birth(date_of_birth);
         setPhone_number(phone_number);
+    }
+
+    public User(String name, String surname, boolean gender, Date date_of_birth) {
+        setName(name);
+        setSurname(surname);
+        setGender(gender);
+        setDate_of_birth(date_of_birth);
+    }
+
+    public User(int id, String name, String surname, boolean gender, Date date_of_birth) {
+        setId(id);
+        setName(name);
+        setSurname(surname);
+        setGender(gender);
+        setDate_of_birth(date_of_birth);
     }
 
     //Getters and setters
@@ -56,10 +71,10 @@ public class User {
     public void setGender(boolean gender) {
         this.gender = gender;
     }
-    public String getDate_of_birth() {
+    public Date getDate_of_birth() {
         return date_of_birth;
     }
-    public void setDate_of_birth(String date_of_birth) {
+    public void setDate_of_birth(Date date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
     public int getPhone_number() {

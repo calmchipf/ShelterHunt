@@ -8,7 +8,7 @@ public interface IUserRepository {
     boolean createUser(User user);
     User getUser(int id);
     List<User> getAllUsers();
-    List<Advert> getOwnedAdverts();
+    List<Advert> getOwnedAdverts(int id);
 
     List<Review> getMadeReviews();
 
