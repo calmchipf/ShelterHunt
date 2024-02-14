@@ -1,7 +1,12 @@
 package entities;
 
+import java.sql.Array;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 public class User {
     private int id;
@@ -10,9 +15,9 @@ public class User {
     private boolean gender;
     private Date date_of_birth;
     private int phone_number;
-    private ArrayList<Integer> owned_adverts_ids = new ArrayList<Integer>();
-    private ArrayList<Integer> fav_adverts_ids = new ArrayList<Integer>();
-    private ArrayList<Integer> review_ids = new ArrayList<Integer>();
+    private Integer[] owned_adverts_ids = {};
+    private Integer[] fav_adverts_ids = {};
+    private Integer[] review_ids = {};
 
     public User(int id){
         setId(id);
@@ -45,6 +50,16 @@ public class User {
         setGender(gender);
         setDate_of_birth(date_of_birth);
     }
+
+    public User(int id, String name, String surname, boolean gender, Date date_of_birth, Integer[] owned_adverts_ids) {
+        setId(id);
+        setName(name);
+        setSurname(surname);
+        setGender(gender);
+        setDate_of_birth(date_of_birth);
+        setOwned_adverts(owned_adverts_ids);
+    }
+
 
     //Getters and setters
     public int getId() {
@@ -83,23 +98,23 @@ public class User {
     public void setPhone_number(int phone_number) {
         this.phone_number = phone_number;
     }
-    public ArrayList<Integer> getOwned_adverts() {
+    public Integer[] getOwned_adverts() {
         return owned_adverts_ids;
     }
-    public void setOwned_adverts(int owned_adverts) {
-        owned_adverts_ids.add(owned_adverts);
+    public void setOwned_adverts(Integer[] owned_adverts) {
+        owned_adverts_ids = owned_adverts;
     }
-    public ArrayList<Integer> getFav_adverts() {
+    public Integer[] getFav_adverts() {
         return fav_adverts_ids;
     }
-    public void setFav_adverts(int fav_adverts) {
-        fav_adverts_ids.add(fav_adverts);
+    public void setFav_adverts(Integer[] fav_adverts) {
+        fav_adverts_ids = fav_adverts;
     }
-    public ArrayList<Integer> getReview_ids() {
+    public Integer[] getReview_ids() {
         return review_ids;
     }
-    public void addReview_id(int review_id) {
-        review_ids.add(review_id);
+    public void addReview_id(Integer[] reviews) {
+        review_ids = reviews;
     }
 
     @Override
@@ -111,7 +126,7 @@ public class User {
                 ", gender=" + gender +
                 ", date_of_birth=" + date_of_birth +
                 ", phone_number=" + phone_number +
-                ", owned_adverts_ids=" + owned_adverts_ids +
+                ", owned_adverts_ids=" + Arrays.toString(owned_adverts_ids) +
                 ", fav_adverts_ids=" + fav_adverts_ids +
                 ", review_ids=" + review_ids +
                 '}';

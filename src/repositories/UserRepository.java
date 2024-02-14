@@ -8,6 +8,7 @@ import repositories.interfaces.IUserRepository;
 
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -90,19 +91,35 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id,name,surname,gender,date_of_birth FROM users";
+            String sql = "SELECT id,name,surname,gender,date_of_birth,owned_adverts_ids FROM users";
             Statement st = con.createStatement();
 
             ResultSet rs = st.executeQuery(sql);
             List<User> users = new LinkedList<>();
             while (rs.next()) {
-                User user = new User(rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getBoolean("gender"),
-                        rs.getDate("date_of_birth"));
+                Array a = rs.getArray("owned_adverts_ids");
+                System.out.println(a);
+                System.out.println("this is for user with id:" + rs.getInt("id"));
+                if (a != null){
+                    Object[] array = (Object[]) a.getArray();
+                    Integer[] intArray = Arrays.copyOf(array, array.length, Integer[].class);
 
-                users.add(user);
+                    User user = new User(rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getBoolean("gender"),
+                            rs.getDate("date_of_birth"),
+                            intArray);
+                    users.add(user);
+                }
+                else{
+                    User user = new User(rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getBoolean("gender"),
+                            rs.getDate("date_of_birth"));
+                    users.add(user);
+                }
             }
 
             return users;
@@ -125,14 +142,19 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id,address,price,description,photos_ids FROM adverts where id=?";
+            String sql = "SELECT * FROM adverts WHERE id IN (\n" +
+                    "\tSELECT unnest(owned_adverts_ids) \n" +
+                    "    FROM users\n" +
+                    "    WHERE id = ?\n" +
+                    ")";
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setInt(1,id);
 
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery();
             List<Advert> adverts = new LinkedList<>();
             while (rs.next()) {
+
                 Advert advert = new Advert(rs.getInt("id"),
                         rs.getString("address"),
                         rs.getString("price"),
