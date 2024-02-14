@@ -80,3 +80,30 @@ Address: Samara, Lenin street 17
 Price: 24,900,000 rubles
 Description: A cozy two-bedroom apartment with an individual interior design. The best area of the city, near a park and a lake
 
+Review :
+
+This apartment exceeded all my expectations! The location is perfect, just a short walk from the city center.
+
+Дизайн интерьера классный и вид с балкона красивый. Я настоятельно рекомендую ее всем, кто ищет роскошное проживание в самом сердце города.
+
+ЭЭЭЭ ХАТА ТЕМА ЕЖЖИ кушты екен болды гой
+
+I recently stayed in this cozy apartment during my business trip, and I was very impressed. The location is convenient, close to public transportation and restaurants
+
+Квартира чистая, уютная, и в ней есть все необходимое для комфортного пребывания. Я определенно буду бронировать ее снова в будущем.
+
+My family and I had a wonderful stay in this spacious apartment. The rooms are bright and airy, and the furniture is modern and comfortable.
+
+Расположение отличное, магазины и кафе прямо за углом, но остановки далеко немного
+
+Apartment's beautifully decorated and equipped with all the necessary amenities
+
+Жер толық ыңғайлы, дүкендер мен ресторандар келісімшартары бойынша оңай. Хозяиндің өзі де қатысатын және талдап көру қызықты болды. Шамамен ұсынылуы мүмкін!
+
+The interior design is stylish and modern, and the location is ideal, close to all the main attractions
+
+Процесс заселения прошел гладко, и хозяин был очень полезен на протяжении всего нашего пребывания
+
+Квартира таза, ауқат, және біздің көмек керек барлық несиелерге иелікті
+
+The location was great, with easy access to public transportation.
