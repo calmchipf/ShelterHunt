@@ -23,10 +23,11 @@ public class MyApplication {
             System.out.println("1. Get all users");
             System.out.println("2. Get user by id");
             System.out.println("3. Create user");
+            System.out.println("4. Get owned adverts of user");
             System.out.println("0. Exit");
             System.out.println();
             try {
-                System.out.print("Enter option (1-3): ");
+                System.out.print("Enter option (1-4): ");
                 int option = scanner.nextInt();
                 if (option == 1) {
                     getAllUsersMenu();
@@ -34,6 +35,8 @@ public class MyApplication {
                     getUserByIdMenu();
                 } else if (option == 3) {
                     createUserMenu();
+                } else if (option == 4) {
+                    getOwnedAdvertsByUserIdMenu();
                 } else {
                     break;
                 }
@@ -76,6 +79,14 @@ public class MyApplication {
         Date date = new Date(dateFormat.parse(date_of_birth).getTime());
 
         String response = controller.createUser(name, surname, gender, date);
+        System.out.println(response);
+    }
+
+    public void getOwnedAdvertsByUserIdMenu() {
+        System.out.println("Please enter id of a user");
+
+        int id = scanner.nextInt();
+        String response = controller.getOwnedAdverts(id);
         System.out.println(response);
     }
 }

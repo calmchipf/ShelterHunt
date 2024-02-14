@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Advert;
 import repositories.interfaces.IUserRepository;
 import entities.User;
 
@@ -37,6 +38,12 @@ public class UserController {
         }
 
         return response.toString();
+    }
+
+    public String getOwnedAdverts(int id) {
+        List<Advert> adverts = repo.getOwnedAdverts(id);
+
+        return (adverts == null ? "Adverts were not found!" : adverts.toString());
     }
 }
 
