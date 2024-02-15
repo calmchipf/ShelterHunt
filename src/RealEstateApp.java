@@ -55,4 +55,45 @@ public class RealEstateApp {
         }
     }
 
+    static void login(Scanner scanner) {
+        System.out.println("Please, enter your username and password.");
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        for (User user : users) {
+            if (user.username.equals(username) && user.password.equals(password)) {
+                currentUser = user;
+                loggedInMenu(scanner);
+                return;
+            }
+        }
+
+        System.out.println("Inputted username or password is incorrect");
+    }
+
+    static void register(Scanner scanner) {
+        System.out.println("Please, enter your data (username, pass, name, surname, date of birth).");
+        System.out.print("Create a username: ");
+        String username = scanner.nextLine();
+        System.out.print("Create a password: ");
+        String password = scanner.nextLine();
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter your surname: ");
+        String surname = scanner.nextLine();
+        System.out.print("Enter your date of birth (yyyy-mm-dd): ");
+        String dateOfBirth = scanner.nextLine();
+
+        User newUser = new User(username, password, name, surname, dateOfBirth);
+        users.add(newUser);
+        currentUser = newUser;
+
+        loggedInMenu(scanner);
+    }
+
+
+}
+
 
