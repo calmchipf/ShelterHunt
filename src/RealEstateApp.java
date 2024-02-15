@@ -18,4 +18,18 @@ class User {
     }
 }
 
+class Advert {
+    int id;
+    String title;
+    String description;
+    // Add more properties as needed
+
+    // Constructor
+    public Advert(int id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+}
+
 
