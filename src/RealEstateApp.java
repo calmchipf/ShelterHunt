@@ -93,7 +93,62 @@ public class RealEstateApp {
         loggedInMenu(scanner);
     }
 
+    static void loggedInMenu(Scanner scanner) {
+        boolean loggedIn = true;
 
+        while (loggedIn) {
+            System.out.println("Hello, welcome to the application of our Real Estate Agency named ShelterHunt!");
+            System.out.println("Select option:");
+            System.out.println("1: Browse Adverts");
+            System.out.println("2: My profile");
+            System.out.println("3: Browse users");
+            System.out.println("4: Add an advert");
+            System.out.println("0: Exit");
+            System.out.print("Your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+
+
+            switch (choice) {
+                case 1:
+                    browseAdverts(scanner);
+                    break;
+                case 2:
+                    viewProfile();
+                    break;
+                case 3:
+                    browseUsers(scanner);
+                    break;
+                case 4:
+                    addAdvert(scanner);
+                    break;
+                case 0:
+                    loggedIn = false;
+                    currentUser = null;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    static void browseAdverts(Scanner scanner) {
+        // Implement browsing adverts logic here
+    }
+
+    static void viewProfile() {
+        // Implement viewing user's profile logic here
+    }
+
+    static void browseUsers(Scanner scanner) {
+        // Implement browsing users logic here
+    }
+
+    static void addAdvert(Scanner scanner) {
+        // Implement adding advert logic here
+    }
 }
+
 
 
