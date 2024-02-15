@@ -32,4 +32,27 @@ class Advert {
     }
 }
 
+public class RealEstateApp {
+    static ArrayList<User> users = new ArrayList<>();
+    static ArrayList<Advert> adverts = new ArrayList<>();
+    static User currentUser;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("Enter 'login' or 'register' in order to access the app: ");
+            String input = scanner.nextLine();
+
+            if (input.equals("login")) {
+                login(scanner);
+            } else if (input.equals("register")) {
+                register(scanner);
+            } else {
+                System.out.println("Invalid input. Please enter 'login' or 'register'.");
+            }
+        }
+    }
+
 
