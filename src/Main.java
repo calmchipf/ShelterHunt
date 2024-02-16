@@ -8,13 +8,14 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         IDB db = new PostgresDB();
         IUserRepository repo = new UserRepository(db);
         UserController controller = new UserController(repo);
-        MyApplication app = new MyApplication(controller);
+        RealEstateApp app = new RealEstateApp(controller);
         app.start();
     }
 }

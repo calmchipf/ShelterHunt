@@ -2,6 +2,7 @@ import controllers.UserController;
 import entities.Advert;
 import entities.User;
 
+import java.sql.Array;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,23 +12,25 @@ import java.util.ArrayList;
 
 public class RealEstateApp {
 
-    private final UserController controller;
+    private static UserController controller;
 
     private final Scanner scanner;
 
-    public MyApplication(UserController controller) {
+    public RealEstateApp(UserController controller) {
         this.controller = controller;
         scanner = new Scanner(System.in);
     }
-    static List<User> users = new ArrayList<User>();
+    static ArrayList<User> users = new ArrayList<User>();
     static ArrayList<Advert> adverts = new ArrayList<>();
     static User currentUser;
 
-    users = UserRepository.getAllUsers()
 
-    public static void main(String[] args) throws ParseException {
+
+    public static void start() throws ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
+
+        users = controller.getAllUsers();
 
         while (running) {
             System.out.println("Enter 'login' or 'register' in order to access the app: ");
@@ -71,13 +74,12 @@ public class RealEstateApp {
         String name = scanner.nextLine();
         System.out.print("Enter your surname: ");
         String surname = scanner.nextLine();
+        System.out.println("Enter your gender: ");
+        String gender = scanner.nextLine();
         System.out.print("Enter your date of birth (yyyy-mm-dd): ");
-        String date_of_birth = scanner.next();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date(dateFormat.parse(date_of_birth).getTime());
+        String date_of_birth = scanner.nextLine();
 
-        User newUser = new User(username, password, name, surname, date);
-        users.add(newUser);
+        User newUser = controller.createUser(username, password, name, surname, gender, date_of_birth);
         currentUser = newUser;
 
         loggedInMenu(scanner);

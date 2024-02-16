@@ -7,7 +7,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MyApplication {
+    private final UserController controller;
+    private final Scanner scanner;
 
+    public MyApplication(UserController controller) {
+        this.controller = controller;
+        scanner = new Scanner(System.in);
+    }
 
     public void start() {
         while (true) {
@@ -24,7 +30,7 @@ public class MyApplication {
                 System.out.print("Enter option (1-4): ");
                 int option = scanner.nextInt();
                 if (option == 1) {
-                    getAllUsersMenu();
+                    break;
                 } else if (option == 2) {
                     getUserByIdMenu();
                 } else if (option == 3) {
@@ -46,10 +52,6 @@ public class MyApplication {
         }
     }
 
-    public void getAllUsersMenu() {
-        String response = controller.getAllUsers();
-        System.out.println(response);
-    }
 
     public void getUserByIdMenu() {
         System.out.println("Please enter id");
@@ -69,11 +71,7 @@ public class MyApplication {
 
         System.out.println("Please enter date of birth (yyyy-mm-dd)");
         String date_of_birth = scanner.next();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date(dateFormat.parse(date_of_birth).getTime());
 
-        String response = controller.createUser(name, surname, gender, date);
-        System.out.println(response);
     }
 
     public void getOwnedAdvertsByUserIdMenu() {

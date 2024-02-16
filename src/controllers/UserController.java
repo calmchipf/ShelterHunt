@@ -5,6 +5,9 @@ import repositories.interfaces.IUserRepository;
 import entities.User;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserController {
@@ -14,13 +17,13 @@ public class UserController {
         this.repo = repo;
     }
 
-    public String createUser(String name, String surname, String gender, Date date_of_birth) {
+    public User createUser(String username, String password, String name, String surname, String gender, String date_of_birth) throws ParseException {
         boolean male = gender.toLowerCase().equals("male");
-        User user = new User(name, surname, male, date_of_birth);
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        Date date = new Date(dateFormat.parse(date_of_birth).getTime());
+        User user = new User(username, password, name, surname, male, date);
         boolean created = repo.createUser(user);
-
-        return (created ? "User was created!" : "User creation was failed!");
+        return user;
     }
 
     public String getUser(int id) {
@@ -29,15 +32,9 @@ public class UserController {
         return (user == null ? "User was not found!" : user.toString());
     }
 
-    public String getAllUsers() {
-        List<User> users = repo.getAllUsers();
+    public ArrayList<User> getAllUsers() {
 
-        StringBuilder response = new StringBuilder();
-        for (User user : users) {
-            response.append(user.toString()).append("\n");
-        }
-
-        return response.toString();
+        return (ArrayList<User>) repo.getAllUsers();
     }
 
     public Object getOwnedAdverts(int id) {

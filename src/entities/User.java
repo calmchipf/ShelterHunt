@@ -60,7 +60,9 @@ public class User {
         setDate_of_birth(date_of_birth);
     }
 
-    public User(String name, String surname, boolean male, Date dateOfBirth) {
+    public User(String username, String password, String name, String surname, boolean male, Date dateOfBirth) {
+        setUsername(username);
+        setPassword(password);
         setName(name);
         setSurname(surname);
         setGender(gender);

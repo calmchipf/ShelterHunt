@@ -26,15 +26,19 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "INSERT INTO users(name, surname, gender, date_of_birth) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO users(username,password,name, surname, gender, date_of_birth) VALUES (? ,? ,?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
 
-            st.setString(1, user.getName());
-            st.setString(2, user.getSurname());
-            st.setBoolean(3, user.getGender());
-            st.setDate(4, user.getDate_of_birth());
+            st.setString(1,user.getUsername());
+            st.setString(2, user.getPassword());
+            st.setString(3, user.getName());
+            st.setString(4, user.getSurname());
+            st.setBoolean(5, user.getGender());
+            st.setDate(6, user.getDate_of_birth());
 
             st.execute();
+
+            System.out.println("SUCCESSFULLY CREATED A USER!");
 
             return true;
         } catch (SQLException e) {
