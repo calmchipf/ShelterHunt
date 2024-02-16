@@ -1,0 +1,52 @@
+Запуск:
+Enter 'login' or 'register' in order to access the app: (type here)
+
+login:
+Please, enter your username and password.
+
+Username: (type here)
+Password: (type here)
+
+Success: -> Заход
+Fail:
+Inputted username or password is incorrect
+
+register:
+Please, enter your data (username, pass, name, surname, date of birth).
+
+Create a username: (type here)
+Create a password: (type here)
+Enter your name: (type here)
+Enter your surname: (type here)
+Enter your date of birth (yyyy-mm-dd): (type here)
+
+-> login
+
+Заход:
+Hello, welcome to the application of our Real Estate Agency named ShelterHunt!
+Select option:
+1: Browse Adverts
+2: My profile
+3: Browse users
+4: Add an advert
+0: Exit
+
+(type here)
+
+1:
+(lots of adverts numerated, able to choose one) | (print them one by one)
+(able to choose one, once chosen, able to see info, reviews, photos, etc.)
+(also able to see the owner, with his info)
+
+2:
+(user's info, able to see his own adverts and made reviews)
+
+3:
+(lots of users numerated, able to choose one) | (print them one by one)
+(able to choose one, once chosen, able to see info, owned adverts, made reviews, etc.)
+
+4:
+(met with menu for advert creation, fills in everything. Once filled, it's id is added to owned adverts)
+
+else:
+-> Exit
