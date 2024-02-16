@@ -22,7 +22,7 @@ public class UserController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
         Date date = new Date(dateFormat.parse(date_of_birth).getTime());
         User user = new User(username, password, name, surname, male, date);
-        boolean created = repo.createUser(user);
+        repo.createUser(user);
         return user;
     }
 

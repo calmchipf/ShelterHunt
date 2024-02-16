@@ -2,29 +2,23 @@ import controllers.UserController;
 import entities.Advert;
 import entities.User;
 
-import java.sql.Array;
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class RealEstateApp {
 
     private static UserController controller;
-
     private final Scanner scanner;
-
-    public RealEstateApp(UserController controller) {
-        this.controller = controller;
-        scanner = new Scanner(System.in);
-    }
     static ArrayList<User> users = new ArrayList<User>();
     static ArrayList<Advert> adverts = new ArrayList<>();
     static User currentUser;
 
 
+    public RealEstateApp(UserController controller) {
+        this.controller = controller;
+        scanner = new Scanner(System.in);
+    }
 
     public static void start() throws ParseException {
         Scanner scanner = new Scanner(System.in);
