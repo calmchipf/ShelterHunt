@@ -86,7 +86,7 @@ public class MyApplication {
         System.out.println("Please enter id of a user");
 
         int id = scanner.nextInt();
-        String response = controller.getOwnedAdverts(id);
+        String response = controller.getOwnedAdverts(id).toString();
         System.out.println(response);
     }
 }

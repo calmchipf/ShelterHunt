@@ -8,6 +8,7 @@ import repositories.interfaces.IUserRepository;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,18 +99,19 @@ public class UserRepository implements IUserRepository {
             List<User> users = new LinkedList<>();
             while (rs.next()) {
                 Array a = rs.getArray("owned_adverts_ids");
-                System.out.println(a);
-                System.out.println("this is for user with id:" + rs.getInt("id"));
                 if (a != null){
                     Object[] array = (Object[]) a.getArray();
-                    Integer[] intArray = Arrays.copyOf(array, array.length, Integer[].class);
+                    ArrayList<Integer> list = new ArrayList<>();
+                    for (Object obj : array) {
+                        list.add((Integer) obj);
+                    }
 
                     User user = new User(rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("surname"),
                             rs.getBoolean("gender"),
                             rs.getDate("date_of_birth"),
-                            intArray);
+                            list);
                     users.add(user);
                 }
                 else{
@@ -155,13 +157,34 @@ public class UserRepository implements IUserRepository {
             List<Advert> adverts = new LinkedList<>();
             while (rs.next()) {
 
-                Advert advert = new Advert(rs.getInt("id"),
-                        rs.getString("address"),
-                        rs.getString("price"),
-                        rs.getString("description"),
-                        rs.getArray("photos_ids"));
+                Array a = rs.getArray("photos_ids");
 
-                adverts.add(advert);
+                if (a != null) {
+                    Object[] array = (Object[]) a.getArray();
+                    ArrayList<Integer> list = new ArrayList<>();
+                    for (Object obj : array) {
+                        list.add((Integer) obj);
+                    }
+                    Advert advert = new Advert(rs.getInt("id"),
+                            rs.getString("address"),
+                            rs.getString("location"),
+                            rs.getInt("price"),
+                            rs.getString(   "description"),
+                            list);
+
+                    adverts.add(advert);
+                }
+                else {
+                    Advert advert = new Advert(rs.getInt("id"),
+                            rs.getString("address"),
+                            rs.getString("location"),
+                            rs.getInt("price"),
+                            rs.getString("description"));
+
+                    adverts.add(advert);
+                }
+
+
             }
 
             return adverts;

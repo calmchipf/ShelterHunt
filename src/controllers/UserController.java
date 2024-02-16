@@ -40,10 +40,15 @@ public class UserController {
         return response.toString();
     }
 
-    public String getOwnedAdverts(int id) {
+    public Object getOwnedAdverts(int id) {
         List<Advert> adverts = repo.getOwnedAdverts(id);
 
-        return (adverts == null ? "Adverts were not found!" : adverts.toString());
+        StringBuilder response = new StringBuilder();
+        for (Advert advert : adverts) {
+            response.append(advert.toString()).append("\n");
+        }
+
+        return response.toString();
     }
 }
 

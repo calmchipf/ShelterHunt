@@ -15,9 +15,9 @@ public class User {
     private boolean gender;
     private Date date_of_birth;
     private int phone_number;
-    private Integer[] owned_adverts_ids = {};
-    private Integer[] fav_adverts_ids = {};
-    private Integer[] review_ids = {};
+    private ArrayList<Integer> owned_adverts_ids = new ArrayList<>();
+    private ArrayList<Integer> fav_adverts_ids = new ArrayList<>();
+    private ArrayList<Integer> review_ids = new ArrayList<>();
 
     public User(int id){
         setId(id);
@@ -51,7 +51,7 @@ public class User {
         setDate_of_birth(date_of_birth);
     }
 
-    public User(int id, String name, String surname, boolean gender, Date date_of_birth, Integer[] owned_adverts_ids) {
+    public User(int id, String name, String surname, boolean gender, Date date_of_birth, ArrayList<Integer> owned_adverts_ids) {
         setId(id);
         setName(name);
         setSurname(surname);
@@ -98,22 +98,22 @@ public class User {
     public void setPhone_number(int phone_number) {
         this.phone_number = phone_number;
     }
-    public Integer[] getOwned_adverts() {
+    public ArrayList<Integer> getOwned_adverts() {
         return owned_adverts_ids;
     }
-    public void setOwned_adverts(Integer[] owned_adverts) {
+    public void setOwned_adverts(ArrayList<Integer> owned_adverts) {
         owned_adverts_ids = owned_adverts;
     }
-    public Integer[] getFav_adverts() {
+    public ArrayList<Integer> getFav_adverts() {
         return fav_adverts_ids;
     }
-    public void setFav_adverts(Integer[] fav_adverts) {
+    public void setFav_adverts(ArrayList<Integer> fav_adverts) {
         fav_adverts_ids = fav_adverts;
     }
-    public Integer[] getReview_ids() {
+    public ArrayList<Integer> getReview_ids() {
         return review_ids;
     }
-    public void addReview_id(Integer[] reviews) {
+    public void addReview_id(ArrayList<Integer> reviews) {
         review_ids = reviews;
     }
 
@@ -126,7 +126,7 @@ public class User {
                 ", gender=" + gender +
                 ", date_of_birth=" + date_of_birth +
                 ", phone_number=" + phone_number +
-                ", owned_adverts_ids=" + Arrays.toString(owned_adverts_ids) +
+                ", owned_adverts_ids=" + owned_adverts_ids +
                 ", fav_adverts_ids=" + fav_adverts_ids +
                 ", review_ids=" + review_ids +
                 '}';

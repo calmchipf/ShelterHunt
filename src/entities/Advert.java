@@ -9,14 +9,8 @@ public class Advert {
     private String location;
     private int price;
     private String description;
-    private ArrayList<Integer> photos_ids = new ArrayList<Integer>();
-    private ArrayList<Integer> review_ids = new ArrayList<Integer>();
-
-    public Advert(int id, String address, String price, String description, Array photosIds){}
-
-    public Advert(int id){
-        setId(id);
-    }
+    private ArrayList<Integer> photos_ids = new ArrayList<>();
+    private ArrayList<Integer> review_ids = new ArrayList<>();
 
     public Advert(int id, String address, String location, int price, String description){
         setId(id);
@@ -24,6 +18,19 @@ public class Advert {
         setLocation(location);
         setPrice(price);
         setDescription(description);
+    }
+
+    public Advert(int id){
+        setId(id);
+    }
+
+    public Advert(int id, String address, String location, int price, String description, ArrayList<Integer> photos_ids){
+        setId(id);
+        setAddress(address);
+        setLocation(location);
+        setPrice(price);
+        setDescription(description);
+        setPhotos_ids(photos_ids);
     }
     // Getters and setters
     public int getId(){
@@ -59,6 +66,10 @@ public class Advert {
     public ArrayList<Integer> getPhotos_ids(){
         return photos_ids;
     }
+
+    public void setPhotos_ids(ArrayList<Integer> photos_ids){
+        this.photos_ids = photos_ids;
+    }
     public void addPhoto (int photos_id){
         photos_ids.add(photos_id);
     }
@@ -71,14 +82,7 @@ public class Advert {
 
     @Override
     public String toString() {
-        return "Advert{" +
-                "id=" + id +
-                ", address='" + address + '\'' +
-                ", location='" + location + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", photos_ids=" + photos_ids +
-                ", review_ids=" + review_ids +
-                '}';
+        return "[ID : " + id + "]" + "Address: " + address + " | Price: " + price +
+                " tenge | Desc: " + description + " ||| photos: " + photos_ids + " | reviews: " + review_ids;
     }
 }
