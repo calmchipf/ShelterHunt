@@ -7,13 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MyApplication {
-    private final UserController controller;
-    private final Scanner scanner;
 
-    public MyApplication(UserController controller) {
-        this.controller = controller;
-        scanner = new Scanner(System.in);
-    }
 
     public void start() {
         while (true) {

@@ -1,43 +1,31 @@
+import controllers.UserController;
+import entities.Advert;
+import entities.User;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-class User {
-    String username;
-    String password;
-    String name;
-    String surname;
-    String dateOfBirth;
-
-    // Constructor
-    public User(String username, String password, String name, String surname, String dateOfBirth) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.dateOfBirth = dateOfBirth;
-    }
-}
-
-class Advert {
-    int id;
-    String title;
-    String description;
-    // Add more properties as needed
-
-    // Constructor
-    public Advert(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
-}
-
 public class RealEstateApp {
-    static ArrayList<User> users = new ArrayList<>();
+
+    private final UserController controller;
+
+    private final Scanner scanner;
+
+    public MyApplication(UserController controller) {
+        this.controller = controller;
+        scanner = new Scanner(System.in);
+    }
+    static List<User> users = new ArrayList<User>();
     static ArrayList<Advert> adverts = new ArrayList<>();
     static User currentUser;
 
-    public static void main(String[] args) {
+    users = UserRepository.getAllUsers()
+
+    public static void main(String[] args) throws ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -63,7 +51,7 @@ public class RealEstateApp {
         String password = scanner.nextLine();
 
         for (User user : users) {
-            if (user.username.equals(username) && user.password.equals(password)) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 currentUser = user;
                 loggedInMenu(scanner);
                 return;
@@ -73,7 +61,7 @@ public class RealEstateApp {
         System.out.println("Inputted username or password is incorrect");
     }
 
-    static void register(Scanner scanner) {
+    static void register(Scanner scanner) throws ParseException {
         System.out.println("Please, enter your data (username, pass, name, surname, date of birth).");
         System.out.print("Create a username: ");
         String username = scanner.nextLine();
@@ -84,9 +72,11 @@ public class RealEstateApp {
         System.out.print("Enter your surname: ");
         String surname = scanner.nextLine();
         System.out.print("Enter your date of birth (yyyy-mm-dd): ");
-        String dateOfBirth = scanner.nextLine();
+        String date_of_birth = scanner.next();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        Date date = new Date(dateFormat.parse(date_of_birth).getTime());
 
-        User newUser = new User(username, password, name, surname, dateOfBirth);
+        User newUser = new User(username, password, name, surname, date);
         users.add(newUser);
         currentUser = newUser;
 

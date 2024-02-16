@@ -86,24 +86,36 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public ArrayList<User> getAllUsers() {
 
         Connection con = null;
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id,name,surname,gender,date_of_birth,owned_adverts_ids FROM users";
+            String sql = "SELECT * FROM users";
             Statement st = con.createStatement();
 
             ResultSet rs = st.executeQuery(sql);
-            List<User> users = new LinkedList<>();
+            ArrayList<User> users = new ArrayList<>();
             while (rs.next()) {
                 Array a = rs.getArray("owned_adverts_ids");
-                if (a != null){
-                    Object[] array = (Object[]) a.getArray();
-                    ArrayList<Integer> list = new ArrayList<>();
-                    for (Object obj : array) {
-                        list.add((Integer) obj);
+                Array b = rs.getArray("fav_adverts_ids");
+                Array c = rs.getArray("fav_adverts_ids");
+                if (a != null && b != null && c != null){
+                    Object[] arraya = (Object[]) a.getArray();
+                    Object[] arrayb = (Object[]) b.getArray();
+                    Object[] arrayc = (Object[]) c.getArray();
+                    ArrayList<Integer> owned_adverts = new ArrayList<>();
+                    ArrayList<Integer> fav_adverts = new ArrayList<>();
+                    ArrayList<Integer> reviews = new ArrayList<>();
+                    for (Object obj : arraya) {
+                        owned_adverts.add((Integer) obj);
+                    }
+                    for (Object obj : arrayb) {
+                        owned_adverts.add((Integer) obj);
+                    }
+                    for (Object obj : arrayc) {
+                        owned_adverts.add((Integer) obj);
                     }
 
                     User user = new User(rs.getInt("id"),
@@ -111,7 +123,9 @@ public class UserRepository implements IUserRepository {
                             rs.getString("surname"),
                             rs.getBoolean("gender"),
                             rs.getDate("date_of_birth"),
-                            list);
+                            rs.getLong("phone_number"),
+                            owned_adverts, fav_adverts, reviews, rs.getString("username"),
+                            rs.getString("password"));
                     users.add(user);
                 }
                 else{
@@ -145,7 +159,7 @@ public class UserRepository implements IUserRepository {
         try {
             con = db.getConnection();
             String sql = "SELECT * FROM adverts WHERE id IN (\n" +
-                    "\tSELECT unnest(owned_adverts_ids) \n" +
+                    "\tSELECT DISTINCT unnest(owned_adverts_ids) \n" +
                     "    FROM users\n" +
                     "    WHERE id = ?\n" +
                     ")";
