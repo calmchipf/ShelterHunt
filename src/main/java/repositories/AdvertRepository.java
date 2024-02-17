@@ -67,5 +67,4 @@ public class AdvertRepository implements IAdvertRepository {
         }
     }
 
-    // Другие методы для работы с объявлениями
 }
