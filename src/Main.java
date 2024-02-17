@@ -1,3 +1,4 @@
+import controllers.AdvertController;
 import controllers.UserController;
 import data.PostgresDB;
 import data.interfaces.IDB;
@@ -16,9 +17,12 @@ public class Main {
     public static void main(String[] args) throws ParseException {
         IDB db = new PostgresDB();
         IUserRepository user_repo = new UserRepository(db);
-        IAdvertRepository advert_controller = new AdvertRepository(db);
+        IAdvertRepository advert_repo = new AdvertRepository(db);
+
         UserController user_controller = new UserController(user_repo);
-        RealEstateApp app = new RealEstateApp(controller);
+        AdvertController advert_controller = new AdvertController(advert_repo);
+
+        RealEstateApp app = new RealEstateApp(user_controller, advert_controller);
         app.start();
     }
 }

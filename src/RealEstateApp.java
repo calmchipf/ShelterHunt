@@ -123,11 +123,10 @@ public class RealEstateApp {
     }
 
     static void browseAdverts(Scanner scanner) {
-        advert_controller.getAllAdverts();
     }
 
     static void viewProfile() {
-        // Implement viewing user's profile logic here
+        user_controller.getUser(currentUser.getId());
     }
 
     static void browseUsers(Scanner scanner) {
