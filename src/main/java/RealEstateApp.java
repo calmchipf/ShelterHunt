@@ -2,6 +2,7 @@ import controllers.AdvertController;
 import controllers.UserController;
 import entities.Advert;
 import entities.User;
+import repositories.interfaces.IAdvertRepository;
 
 import java.text.ParseException;
 import java.util.Scanner;
@@ -123,6 +124,22 @@ public class RealEstateApp {
     }
 
     static void browseAdverts(Scanner scanner) {
+        System.out.println("Browse Adverts:");
+        boolean continueBrowsing = true;
+        while (continueBrowsing) {
+            Advert nextAdvert = advert_controller.getNextAdvert();
+            if (nextAdvert != null) {
+                System.out.println(nextAdvert.toString());
+                System.out.println("Press Enter to see the next advert or type 'exit' to quit browsing:");
+                String input = scanner.nextLine();
+                if ("exit".equalsIgnoreCase(input)) {
+                    continueBrowsing = false;
+                }
+            } else {
+                System.out.println("No more adverts available.");
+                continueBrowsing = false;
+            }
+        }
     }
 
     static void viewProfile() {
@@ -131,7 +148,7 @@ public class RealEstateApp {
     }
 
     static void browseUsers(Scanner scanner) {
-        // Implement browsing users logic here
+
     }
 
     static void addAdvert(Scanner scanner) {
