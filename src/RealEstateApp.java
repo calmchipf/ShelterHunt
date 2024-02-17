@@ -1,3 +1,4 @@
+import controllers.AdvertController;
 import controllers.UserController;
 import entities.Advert;
 import entities.User;
@@ -8,15 +9,17 @@ import java.util.ArrayList;
 
 public class RealEstateApp {
 
-    private static UserController controller;
+    private static UserController user_controller;
+    private static AdvertController advert_controller;
     private final Scanner scanner;
     static ArrayList<User> users = new ArrayList<User>();
     static ArrayList<Advert> adverts = new ArrayList<>();
     static User currentUser;
 
 
-    public RealEstateApp(UserController controller) {
-        this.controller = controller;
+    public RealEstateApp(UserController user_controller, AdvertController advert_controller) {
+        this.user_controller = user_controller;
+        this.advert_controller = advert_controller;
         scanner = new Scanner(System.in);
     }
 
@@ -24,7 +27,7 @@ public class RealEstateApp {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
-        users = controller.getAllUsers();
+        users = user_controller.getAllUsers();
 
         while (running) {
             System.out.println("Enter 'login' or 'register' in order to access the app: ");
@@ -73,7 +76,7 @@ public class RealEstateApp {
         System.out.print("Enter your date of birth (yyyy-mm-dd): ");
         String date_of_birth = scanner.nextLine();
 
-        User newUser = controller.createUser(username, password, name, surname, gender, date_of_birth);
+        User newUser = user_controller.createUser(username, password, name, surname, gender, date_of_birth);
         currentUser = newUser;
 
         loggedInMenu(scanner);
@@ -120,7 +123,7 @@ public class RealEstateApp {
     }
 
     static void browseAdverts(Scanner scanner) {
-        // Implement browsing adverts logic here
+        advert_controller.getAllAdverts();
     }
 
     static void viewProfile() {
