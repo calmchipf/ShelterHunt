@@ -126,7 +126,8 @@ public class RealEstateApp {
     }
 
     static void viewProfile() {
-        user_controller.getUser(currentUser.getId());
+        String response = user_controller.getUser(currentUser.getId());
+        System.out.println(response);
     }
 
     static void browseUsers(Scanner scanner) {

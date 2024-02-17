@@ -135,16 +135,15 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", gender=" + gender +
-                ", date_of_birth=" + date_of_birth +
-                ", phone_number=" + phone_number +
-                ", owned_adverts_ids=" + owned_adverts_ids +
-                ", fav_adverts_ids=" + fav_adverts_ids +
-                ", review_ids=" + reviews_ids +
-                '}';
+        return "-[User profile]-" + '\n' +
+                "Id:" + id + '\n' +
+                "Name and surname: " + name + ' ' + surname + '\n' +
+                "Gender: " + (getGender() ? "Male" : "Female") + '\n' +
+                "Date of birth: " + date_of_birth + '\n' +
+                "Phone number: " + phone_number + '\n' +
+                "- Admin stuff -  " + '\n' +
+                "owned_adverts_ids: " + owned_adverts_ids + '\n' +
+                "fav_adverts_ids: " + fav_adverts_ids + '\n' +
+                "review_ids: " + reviews_ids;
     }
 }
