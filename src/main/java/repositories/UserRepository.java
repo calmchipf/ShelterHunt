@@ -175,19 +175,21 @@ public class UserRepository implements IUserRepository {
             while (rs.next()) {
 
                 Array a = rs.getArray("photos_ids");
+                Array b = rs.getArray("reviews_ids");
 
                 if (a != null) {
-                    Object[] array = (Object[]) a.getArray();
-                    ArrayList<Integer> list = new ArrayList<>();
-                    for (Object obj : array) {
-                        list.add((Integer) obj);
-                    }
+                    Object[] array_a = (Object[]) a.getArray();
+                    Object[] array_b = (Object[]) b.getArray();
+                    ArrayList<Integer> list_a = new ArrayList<>();
+                    ArrayList<Integer> list_b = new ArrayList<>();
+                    for (Object obj : array_a) {list_a.add((Integer) obj);}
+                    for (Object obj : array_b) {list_b.add((Integer) obj);}
                     Advert advert = new Advert(rs.getInt("id"),
                             rs.getString("address"),
                             rs.getString("location"),
                             rs.getInt("price"),
                             rs.getString(   "description"),
-                            list);
+                            list_a,list_b);
 
                     adverts.add(advert);
                 }
