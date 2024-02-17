@@ -96,6 +96,7 @@ public class UserRepository implements IUserRepository {
         try {
             con = db.getConnection();
             String sql = "SELECT * FROM users";
+
             Statement st = con.createStatement();
 
             ResultSet rs = st.executeQuery(sql);
