@@ -2,9 +2,9 @@ import controllers.AdvertController;
 import controllers.UserController;
 import entities.Advert;
 import entities.User;
-import repositories.interfaces.IAdvertRepository;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ public class RealEstateApp {
 
     private static UserController user_controller;
     private static AdvertController advert_controller;
-    private final Scanner scanner;
+    private static Scanner scanner = null;
     static ArrayList<User> users = new ArrayList<User>();
     static ArrayList<Advert> adverts = new ArrayList<>();
     static User currentUser;
@@ -54,7 +54,7 @@ public class RealEstateApp {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 currentUser = user;
-                loggedInMenu(scanner);
+                loggedInMenu();
                 return;
             }
         }
@@ -80,10 +80,10 @@ public class RealEstateApp {
         User newUser = user_controller.createUser(username, password, name, surname, gender, date_of_birth);
         currentUser = newUser;
 
-        loggedInMenu(scanner);
+        loggedInMenu();
     }
 
-    static void loggedInMenu(Scanner scanner) {
+    static void loggedInMenu() {
         boolean loggedIn = true;
 
         while (loggedIn) {
@@ -148,7 +148,22 @@ public class RealEstateApp {
     }
 
     static void browseUsers(Scanner scanner) {
-
+        System.out.println("Browse Users:");
+        boolean continueBrowsing = true;
+        while (continueBrowsing) {
+            User nextUser = user_controller.getNextUser();
+            if (nextUser != null) {
+                System.out.println(nextUser.toString());
+                System.out.println("Press Enter to see the next advert or type 'exit' to quit browsing:");
+                String input = scanner.nextLine();
+                if ("exit".equalsIgnoreCase(input)) {
+                    continueBrowsing = false;
+                }
+            } else {
+                System.out.println("No more users available.");
+                continueBrowsing = false;
+            }
+        }
     }
 
     static void addAdvert(Scanner scanner) {

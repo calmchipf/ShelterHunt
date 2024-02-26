@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Advert;
+import repositories.interfaces.IAdvertRepository;
 import repositories.interfaces.IUserRepository;
 import entities.User;
 
@@ -12,9 +13,11 @@ import java.util.List;
 
 public class UserController {
     private final IUserRepository repo;
+    private int currentIndex;
 
     public UserController(IUserRepository repo) {
         this.repo = repo;
+        this.currentIndex = 0;
     }
 
     public User createUser(String username, String password, String name, String surname, String gender, String date_of_birth) throws ParseException {
@@ -46,6 +49,25 @@ public class UserController {
         }
 
         return response.toString();
+    }
+
+
+    public User getNextUser() {
+        List<User> users = repo.getAllUsers();
+
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        User nextUser = users.get(currentIndex);
+
+        currentIndex++;
+
+        if (currentIndex >= users.size()) {
+            currentIndex = 0;
+        }
+
+        return nextUser;
     }
 }
 
