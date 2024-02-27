@@ -26,7 +26,7 @@ public class UserController {
         Date date = new Date(dateFormat.parse(date_of_birth).getTime());
         User user = new User(username, password, name, surname, male, date);
         repo.createUser(user);
-        return user;
+        return repo.getUserByUsernameAndPassword(username, password);
     }
 
     public String getUser(int id) {

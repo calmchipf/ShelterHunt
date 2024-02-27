@@ -25,7 +25,7 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "INSERT INTO users(username,password,name, surname, gender, date_of_birth) VALUES (? ,? ,?, ?, ?, ?)";
+            String sql = "INSERT INTO users(username,password,name, surname, gender, date_of_birth, phone_number, owned_adverts_ids, fav_adverts_ids, reviews_ids) VALUES (? ,? ,?, ?, ?, ?, 0, '{}', '{}', '{}')";
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setString(1,user.getUsername());
@@ -73,6 +73,71 @@ public class UserRepository implements IUserRepository {
                         rs.getString("surname"),
                         rs.getBoolean("gender"),
                         rs.getDate("date_of_birth"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("sql error: " + e.getMessage());
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                System.out.println("sql error: " + e.getMessage());
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public User getUserByUsernameAndPassword(String username, String password) {
+        Connection con = null;
+
+        try {
+            con = db.getConnection();
+            String sql = "SELECT id,name,surname,gender,date_of_birth,phone_number,owned_adverts_ids,fav_adverts_ids,reviews_ids,username,password FROM users WHERE username = ? and password = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setString(1, username);
+            st.setString(2, password);
+
+            ResultSet rs = st.executeQuery();
+
+
+            if (rs.next()) {
+
+                Array a = rs.getArray("owned_adverts_ids");
+                Array b = rs.getArray("fav_adverts_ids");
+                Array c = rs.getArray("fav_adverts_ids");
+                if (a != null && b != null && c != null) {
+                    Object[] arraya = (Object[]) a.getArray();
+                    Object[] arrayb = (Object[]) b.getArray();
+                    Object[] arrayc = (Object[]) c.getArray();
+                    ArrayList<Integer> owned_adverts = new ArrayList<>();
+                    ArrayList<Integer> fav_adverts = new ArrayList<>();
+                    ArrayList<Integer> reviews = new ArrayList<>();
+                    for (Object obj : arraya) {
+                        owned_adverts.add((Integer) obj);
+                    }
+                    for (Object obj : arrayb) {
+                        owned_adverts.add((Integer) obj);
+                    }
+                    for (Object obj : arrayc) {
+                        owned_adverts.add((Integer) obj);
+                    }
+
+                    User user = new User(rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getBoolean("gender"),
+                            rs.getDate("date_of_birth"),
+                            rs.getLong("phone_number"),
+                            owned_adverts, fav_adverts, reviews, rs.getString("username"),
+                            rs.getString("password"));
+
+                    return user;
+                }else{
+                    return null;
+                }
             }
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("sql error: " + e.getMessage());

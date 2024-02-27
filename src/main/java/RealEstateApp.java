@@ -144,6 +144,7 @@ public class RealEstateApp {
 
     static void viewProfile() {
         String response = user_controller.getUser(currentUser.getId());
+        System.out.println("[][][] The id is : " + currentUser.getId());
         System.out.println(response);
     }
 

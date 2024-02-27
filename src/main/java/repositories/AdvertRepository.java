@@ -27,7 +27,7 @@ public class AdvertRepository implements IAdvertRepository {
         Connection con = null;
         try {
             con = db.getConnection();
-            String sql = "SELECT * FROM adverts";
+            String sql = "SELECT * FROM adverts ORDER BY id";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             List<Advert> adverts = new LinkedList<>();

@@ -14,7 +14,7 @@ public class User {
     private String surname;
     private boolean gender;
     private Date date_of_birth;
-    private long phone_number;
+    private long phone_number = 0;
     private ArrayList<Integer> owned_adverts_ids = new ArrayList<>();
     private ArrayList<Integer> fav_adverts_ids = new ArrayList<>();
     private ArrayList<Integer> reviews_ids = new ArrayList<>();
