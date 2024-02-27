@@ -13,15 +13,62 @@ import java.util.List;
 public class AdvertRepository implements IAdvertRepository {
     private final IDB db;
 
+    // Constructor to initialize AdvertRepository with a database connection
     public AdvertRepository(IDB db) {
         this.db = db;
     }
 
+    // Method to add a new advert to the database and associate it with a user
+    @Override
+    public boolean addAdvert(Advert advert, int userId) {
+        Connection con = null;
+
+        try {
+            con = db.getConnection();
+            String sql = "INSERT INTO adverts(address, location, price, description) VALUES (?, ?, ?, ?)";
+            PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            st.setString(1, advert.getAddress());
+            st.setString(2, advert.getLocation());
+            st.setInt(3, advert.getPrice());
+            st.setString(4, advert.getDescription());
+
+            st.executeUpdate();
+
+            ResultSet rs = st.getGeneratedKeys();
+            int advertId = 0;
+            if (rs.next()) {
+                advertId = rs.getInt(1);
+            }
+
+            sql = "UPDATE users SET owned_adverts_ids = array_append(owned_adverts_ids, ?) WHERE id = ?";
+            st = con.prepareStatement(sql);
+            st.setInt(1, advertId);
+            st.setInt(2, userId);
+            st.executeUpdate();
+
+            return true;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    // Method to check reviews associated with an advert
     @Override
     public List<Review> checkReviews(int id) {
         return null;
     }
 
+    // Method to retrieve all adverts from the database
     @Override
     public List<Advert> getAllAdverts() {
         Connection con = null;
