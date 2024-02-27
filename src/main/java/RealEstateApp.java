@@ -28,7 +28,6 @@ public class RealEstateApp {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
-        users = user_controller.getAllUsers();
 
         while (running) {
             System.out.println("Enter 'login' or 'register' in order to access the app: ");
@@ -45,6 +44,8 @@ public class RealEstateApp {
     }
 
     static void login(Scanner scanner) {
+        users = user_controller.getAllUsers();
+
         System.out.println("Please, enter your username and password.");
         System.out.print("Username: ");
         String username = scanner.nextLine();
@@ -84,6 +85,7 @@ public class RealEstateApp {
     }
 
     static void loggedInMenu() {
+        users = user_controller.getAllUsers();
         boolean loggedIn = true;
 
         while (loggedIn) {
