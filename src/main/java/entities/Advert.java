@@ -20,6 +20,7 @@ public class Advert {
     private ArrayList<Integer> photos_ids = new ArrayList<>();
     private ArrayList<Integer> review_ids = new ArrayList<>();
 
+    // Constructor to initialize an advert with basic information
     public Advert(int id, String address, String location, int price, String description){
         setId(id);
         setAddress(address);
@@ -28,14 +29,17 @@ public class Advert {
         setDescription(description);
     }
 
-
+    // Method to add a photo ID related to the advert
     public void addPhoto (int photos_id){
         photos_ids.add(photos_id);
     }
+
+    // Method to add a review ID related to the advert
     public void addReview_id(int review_id){
         review_ids.add(review_id);
     }
 
+    // Method to generate a string representation of the advert
     @Override
     public String toString() {
         return "[ID : " + id + "]" + "Address: " + address + " | Price: " + price +

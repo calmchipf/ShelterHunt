@@ -15,10 +15,12 @@ import java.util.List;
 public class UserRepository implements IUserRepository {
     private final IDB db;
 
+    // Constructor to initialize UserRepository with a database instance
     public UserRepository(IDB db) {
         this.db = db;
     }
 
+    // Returns true if the user creation is successful, false otherwise
     @Override
     public boolean createUser(User user) {
         Connection con = null;
@@ -55,6 +57,7 @@ public class UserRepository implements IUserRepository {
         return false;
     }
 
+    // Method to retrieve a user from the database by ID
     @Override
     public User getUser(int id) {
         Connection con = null;
@@ -88,6 +91,7 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
+    // Method to retrieve a user from the database by username and password
     @Override
     public User getUserByUsernameAndPassword(String username, String password) {
         Connection con = null;
@@ -153,6 +157,7 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
+    // Method to retrieve all users from the database
     @Override
     public ArrayList<User> getAllUsers() {
 

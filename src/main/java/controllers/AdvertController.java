@@ -16,11 +16,13 @@ public class AdvertController {
     private final IAdvertRepository repo;
     private int currentIndex;
 
+    // Constructor to initialize AdvertController with an advert repository
     public AdvertController(IAdvertRepository repo) {
         this.repo = repo;
         this.currentIndex = 0;
     }
 
+    // Method to retrieve the next advert
     public Advert getNextAdvert() {
         List<Advert> adverts = repo.getAllAdverts();
 

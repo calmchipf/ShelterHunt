@@ -9,21 +9,29 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class RealEstateApp {
-
+    // Controllers for handling user and advert functionalities
     private static UserController user_controller;
     private static AdvertController advert_controller;
+
+    // Scanner object for taking user input
     private static Scanner scanner = null;
+
+    // Lists to hold users and adverts data
     static ArrayList<User> users = new ArrayList<User>();
     static ArrayList<Advert> adverts = new ArrayList<>();
+
+    // Current logged-in user
     static User currentUser;
 
-
+    // Constructor to initialize RealEstateApp with UserController and AdvertController
     public RealEstateApp(UserController user_controller, AdvertController advert_controller) {
         this.user_controller = user_controller;
         this.advert_controller = advert_controller;
+        // Initialize scanner for user input
         scanner = new Scanner(System.in);
     }
 
+    // It prompts the user to log in or register and handles user input accordingly
     public static void start() throws ParseException {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -43,6 +51,7 @@ public class RealEstateApp {
         }
     }
 
+    // Method to handle user login process
     static void login(Scanner scanner) {
         users = user_controller.getAllUsers();
 
@@ -55,6 +64,7 @@ public class RealEstateApp {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 currentUser = user;
+                // Proceed to logged-in menu
                 loggedInMenu();
                 return;
             }
@@ -63,6 +73,7 @@ public class RealEstateApp {
         System.out.println("Inputted username or password is incorrect");
     }
 
+    // Method to handle user registration process
     static void register(Scanner scanner) throws ParseException {
         System.out.println("Please, enter your data (username, pass, name, surname, date of birth).");
         System.out.print("Create a username: ");
@@ -81,9 +92,11 @@ public class RealEstateApp {
         User newUser = user_controller.createUser(username, password, name, surname, gender, date_of_birth);
         currentUser = newUser;
 
+        // Proceed to logged-in menu
         loggedInMenu();
     }
 
+    // It provides options to browse adverts, view profile, browse users, and add an advert
     static void loggedInMenu() {
         users = user_controller.getAllUsers();
         boolean loggedIn = true;
@@ -100,7 +113,7 @@ public class RealEstateApp {
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
-
+            // Consume newline
 
             switch (choice) {
                 case 1:
@@ -125,6 +138,7 @@ public class RealEstateApp {
         }
     }
 
+    // Method to browse adverts available
     static void browseAdverts(Scanner scanner) {
         System.out.println("Browse Adverts:");
         boolean continueBrowsing = true;
@@ -144,12 +158,14 @@ public class RealEstateApp {
         }
     }
 
+    // Method to view the profile of the currently logged-in user
     static void viewProfile() {
         String response = user_controller.getUser(currentUser.getId());
         System.out.println("[][][] The id is : " + currentUser.getId());
         System.out.println(response);
     }
 
+    // Method to browse users registered in the system
     static void browseUsers(Scanner scanner) {
         System.out.println("Browse Users:");
         boolean continueBrowsing = true;
@@ -169,6 +185,7 @@ public class RealEstateApp {
         }
     }
 
+    // Method to add a new advert
     static void addAdvert(Scanner scanner) {
         // Implement adding advert logic here
     }

@@ -11,6 +11,7 @@ public class Review {
     private int id;
     private String content;
 
+    // Method to generate a string representation of the review
     @Override
     public String toString() {
         return "Review{" +

@@ -15,11 +15,13 @@ public class UserController {
     private final IUserRepository repo;
     private int currentIndex;
 
+    // Constructor to initialize UserController with a user repository
     public UserController(IUserRepository repo) {
         this.repo = repo;
         this.currentIndex = 0;
     }
 
+    // Method to create a new user based on provided data
     public User createUser(String username, String password, String name, String surname, String gender, String date_of_birth) throws ParseException {
         boolean male = gender.toLowerCase().equals("male");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
@@ -29,17 +31,20 @@ public class UserController {
         return repo.getUserByUsernameAndPassword(username, password);
     }
 
+    // Method to get user information by ID
     public String getUser(int id) {
         User user = repo.getUser(id);
 
         return (user == null ? "User was not found!" : user.toString());
     }
 
+    // Method to retrieve all users from the repository
     public ArrayList<User> getAllUsers() {
 
         return (ArrayList<User>) repo.getAllUsers();
     }
 
+    // Method to retrieve adverts owned by a specific user
     public Object getOwnedAdverts(int id) {
         List<Advert> adverts = repo.getOwnedAdverts(id);
 
@@ -52,6 +57,7 @@ public class UserController {
     }
 
 
+    // Method to retrieve the next user in the list of users
     public User getNextUser() {
         List<User> users = repo.getAllUsers();
 

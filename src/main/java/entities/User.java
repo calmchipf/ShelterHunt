@@ -22,6 +22,7 @@ public class User {
     private String username;
     private String password;
 
+    // Constructor to initialize a user with basic information
     public User(int id, String name, String surname, boolean gender, Date date_of_birth) {
         setId(id);
         setName(name);
@@ -30,6 +31,7 @@ public class User {
         setDate_of_birth(date_of_birth);
     }
 
+    // Constructor to initialize a user with login credentials and basic information
     public User(String username, String password, String name, String surname, boolean gender, Date date_of_birth) {
         setUsername(username);
         setPassword(password);
@@ -39,11 +41,13 @@ public class User {
         setDate_of_birth(date_of_birth);
     }
 
+    // Getter for gender since lombok doesn't generate it
     public boolean getGender() {  // I added this getter because lombok doesn't make one fsr.
         return gender;
     }
 
 
+    // Method to generate a string representation of the user
     @Override
     public String toString() {
         return "-[User profile]-" + '\n' +
@@ -57,8 +61,5 @@ public class User {
                 "fav_adverts_ids: " + fav_adverts_ids + '\n' +
                 "review_ids: " + reviews_ids;
     }
-
-
-
 
 }
