@@ -29,6 +29,9 @@ public class Advert {
         setDescription(description);
     }
 
+    public Advert(String address, String location, int price, String description) {
+    }
+
     // Method to add a photo ID related to the advert
     public void addPhoto (int photos_id){
         photos_ids.add(photos_id);

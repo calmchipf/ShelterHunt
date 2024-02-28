@@ -1,7 +1,10 @@
 import controllers.AdvertController;
 import controllers.UserController;
+import data.PostgresDB;
+import data.interfaces.IDB;
 import entities.Advert;
 import entities.User;
+import repositories.AdvertRepository;
 
 import java.text.ParseException;
 import java.util.List;
@@ -187,7 +190,38 @@ public class RealEstateApp {
 
     // Method to add a new advert
     static void addAdvert(Scanner scanner) {
-        // Implement adding advert logic here
+        System.out.println("Enter address:");
+        String address = scanner.nextLine();
+
+        System.out.println("Enter location:");
+        String location = scanner.nextLine();
+
+        System.out.println("Enter price:");
+        int price = scanner.nextInt();
+        // Consume newline left-over
+        scanner.nextLine();
+
+        System.out.println("Enter description:");
+        String description = scanner.nextLine();
+
+        // Creating an Advert object
+
+        Advert advert = new Advert(address, location, price, description);
+
+        // Repository object initialized somewhere
+        IDB db = new PostgresDB();
+        AdvertRepository advertRepository = new AdvertRepository(db);
+
+        // Get the logged-in user's ID
+        int userId = 1;
+
+        boolean success = advertRepository.addAdvert(advert, userId);
+
+        if (success) {
+            System.out.println("Advert added successfully!");
+        } else {
+            System.out.println("Failed to add advert.");
+        }
     }
 }
 
