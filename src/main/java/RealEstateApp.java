@@ -193,11 +193,20 @@ public class RealEstateApp {
         System.out.println("Enter address:");
         String address = scanner.nextLine();
 
-        System.out.println("Enter location:");
-        String location = scanner.nextLine();
+        int price = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                System.out.println("Enter price:");
+                price = scanner.nextInt();
+                validInput = true;
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a valid price.");
+                // Consume invalid input
+                scanner.nextLine();
+            }
+        }
 
-        System.out.println("Enter price:");
-        int price = scanner.nextInt();
         // Consume newline left-over
         scanner.nextLine();
 
@@ -205,8 +214,7 @@ public class RealEstateApp {
         String description = scanner.nextLine();
 
         // Creating an Advert object
-
-        Advert advert = new Advert(address, location, price, description);
+        Advert advert = new Advert(address, price, description);
 
         // Repository object initialized somewhere
         IDB db = new PostgresDB();

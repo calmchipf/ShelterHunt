@@ -29,7 +29,13 @@ public class Advert {
         setDescription(description);
     }
 
-    public Advert(String address, String location, int price, String description) {
+    public Advert(String address, int price, String description) {
+    }
+
+    public Advert(int id, String address, int price, String description, ArrayList<Integer> listA, ArrayList<Integer> listB) {
+    }
+
+    public Advert(int id, String address, int price, String description) {
     }
 
     // Method to add a photo ID related to the advert

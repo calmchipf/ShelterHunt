@@ -257,7 +257,6 @@ public class UserRepository implements IUserRepository {
                     for (Object obj : array_b) {list_b.add((Integer) obj);}
                     Advert advert = new Advert(rs.getInt("id"),
                             rs.getString("address"),
-                            rs.getString("location"),
                             rs.getInt("price"),
                             rs.getString(   "description"),
                             list_a,list_b);
@@ -267,7 +266,6 @@ public class UserRepository implements IUserRepository {
                 else {
                     Advert advert = new Advert(rs.getInt("id"),
                             rs.getString("address"),
-                            rs.getString("location"),
                             rs.getInt("price"),
                             rs.getString("description"));
 

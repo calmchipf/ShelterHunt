@@ -25,13 +25,12 @@ public class AdvertRepository implements IAdvertRepository {
 
         try {
             con = db.getConnection();
-            String sql = "INSERT INTO adverts(address, location, price, description) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO adverts(address, price, description) VALUES (?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, advert.getAddress());
-            st.setString(2, advert.getLocation());
-            st.setInt(3, advert.getPrice());
-            st.setString(4, advert.getDescription());
+            st.setInt(2, advert.getPrice());
+            st.setString(3, advert.getDescription());
 
             st.executeUpdate();
 
@@ -82,7 +81,7 @@ public class AdvertRepository implements IAdvertRepository {
                 Array a = rs.getArray("photos_ids");
                 Array b = rs.getArray("reviews_ids");
                 if (a == null) {
-                    Advert advert = new Advert(rs.getInt("id"), rs.getString("address"), rs.getString("location"), rs.getInt("price"), rs.getString("description"));
+                    Advert advert = new Advert(rs.getInt("id"), rs.getString("address"), rs.getInt("price"), rs.getString("description"));
                     adverts.add(advert);
                 } else {
                     Object[] array_a = (Object[]) a.getArray();
@@ -95,7 +94,7 @@ public class AdvertRepository implements IAdvertRepository {
                     for (Object obj : array_b) {
                         list_b.add((Integer) obj);
                     }
-                    Advert advert = new Advert(rs.getInt("id"), rs.getString("address"), rs.getString("location"), rs.getInt("price"), rs.getString("description"), list_a, list_b);
+                    Advert advert = new Advert(rs.getInt("id"), rs.getString("address"), rs.getInt("price"), rs.getString("description"), list_a, list_b);
                     adverts.add(advert);
                 }
             }
