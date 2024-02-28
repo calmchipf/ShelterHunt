@@ -163,8 +163,7 @@ public class RealEstateApp {
 
     // Method to view the profile of the currently logged-in user
     static void viewProfile() {
-        String response = user_controller.getUser(currentUser.getId());
-        System.out.println("[][][] The id is : " + currentUser.getId());
+        String response = user_controller.getUserByUsernameAndPassword(currentUser.getUsername(), currentUser.getPassword());
         System.out.println(response);
     }
 
@@ -216,14 +215,10 @@ public class RealEstateApp {
         // Creating an Advert object
         Advert advert = new Advert(address, price, description);
 
-        // Repository object initialized somewhere
-        IDB db = new PostgresDB();
-        AdvertRepository advertRepository = new AdvertRepository(db);
-
         // Get the logged-in user's ID
-        int userId = 1;
+        int userId = currentUser.getId();
 
-        boolean success = advertRepository.addAdvert(advert, userId);
+        boolean success = advert_controller.addAdvert(advert, userId);
 
         if (success) {
             System.out.println("Advert added successfully!");

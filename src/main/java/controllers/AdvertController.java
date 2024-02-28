@@ -22,6 +22,12 @@ public class AdvertController {
         this.currentIndex = 0;
     }
 
+    public boolean addAdvert(Advert advert, int userId){
+        boolean advert_added = repo.addAdvert(advert, userId);
+
+        return advert_added;
+    }
+
     // Method to retrieve the next advert
     public Advert getNextAdvert() {
         List<Advert> adverts = repo.getAllAdverts();

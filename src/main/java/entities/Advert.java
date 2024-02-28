@@ -21,15 +21,10 @@ public class Advert {
     private ArrayList<Integer> review_ids = new ArrayList<>();
 
     // Constructor to initialize an advert with basic information
-    public Advert(int id, String address, String location, int price, String description){
-        setId(id);
+    public Advert(String address, int price, String description){
         setAddress(address);
-        setLocation(location);
         setPrice(price);
         setDescription(description);
-    }
-
-    public Advert(String address, int price, String description) {
     }
 
     public Advert(int id, String address, int price, String description, ArrayList<Integer> listA, ArrayList<Integer> listB) {

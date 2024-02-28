@@ -3,6 +3,7 @@ package repositories;
 import data.interfaces.IDB;
 import entities.Advert;
 import entities.Review;
+import entities.User;
 import repositories.interfaces.IAdvertRepository;
 
 import java.sql.*;
@@ -26,7 +27,7 @@ public class AdvertRepository implements IAdvertRepository {
         try {
             con = db.getConnection();
             String sql = "INSERT INTO adverts(address, price, description) VALUES (?, ?, ?)";
-            PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement st = con.prepareStatement(sql);
 
             st.setString(1, advert.getAddress());
             st.setInt(2, advert.getPrice());
@@ -34,11 +35,7 @@ public class AdvertRepository implements IAdvertRepository {
 
             st.executeUpdate();
 
-            ResultSet rs = st.getGeneratedKeys();
-            int advertId = 0;
-            if (rs.next()) {
-                advertId = rs.getInt(1);
-            }
+            int advertId = getIdOfAdvertByEverythingElse(advert.getAddress(), advert.getPrice(), advert.getDescription());
 
             sql = "UPDATE users SET owned_adverts_ids = array_append(owned_adverts_ids, ?) WHERE id = ?";
             st = con.prepareStatement(sql);
@@ -111,6 +108,37 @@ public class AdvertRepository implements IAdvertRepository {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    // A very bad practice. But I have no idea how to make implement it otherwise, which makes me incredibly sad.
+    public int getIdOfAdvertByEverythingElse(String address, int price, String description){
+        Connection con = null;
+
+        try {
+            con = db.getConnection();
+            String sql = "SELECT id FROM adverts WHERE address = ? and price = ? and description = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setString(1, address);
+            st.setInt(2, price);
+            st.setString(3, description);
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("sql error: " + e.getMessage());
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                System.out.println("sql error: " + e.getMessage());
+            }
+        }
+
+        return 0;
     }
 
 }

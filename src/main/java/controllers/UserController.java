@@ -38,6 +38,12 @@ public class UserController {
         return (user == null ? "User was not found!" : user.toString());
     }
 
+    public String getUserByUsernameAndPassword(String username, String password){
+        User user = repo.getUserByUsernameAndPassword(username, password);
+
+        return (user == null ? "User was not found!" : user.toString());
+    }
+
     // Method to retrieve all users from the repository
     public ArrayList<User> getAllUsers() {
 
