@@ -10,8 +10,11 @@ public interface IUserRepository {
     List<User> getAllUsers();
     List<Advert> getOwnedAdverts(int id);
 
-    User getUserByUsernameAndPassword(String username, String password);
+    User getLastUser();
+
+    void updateUser(int id, String column_name, String new_info);
 
     List<Review> getMadeReviews();
 
+    void deleteUser(int id);
 }

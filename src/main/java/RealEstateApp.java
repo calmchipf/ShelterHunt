@@ -7,6 +7,7 @@ import entities.User;
 import repositories.AdvertRepository;
 
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -105,6 +106,7 @@ public class RealEstateApp {
         boolean loggedIn = true;
 
         while (loggedIn) {
+            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
             System.out.println("Hello, welcome to the application of our Real Estate Agency named ShelterHunt!");
             System.out.println("Select option:");
             System.out.println("1: Browse Adverts");
@@ -113,17 +115,24 @@ public class RealEstateApp {
             System.out.println("4: Add an advert");
             System.out.println("0: Exit");
             System.out.print("Your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            // Consume newline
+            int choice;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scanner.next(); // Consume the invalid input
+                continue; // Skip the rest of the loop and start from the beginning
+            }
 
             switch (choice) {
                 case 1:
                     browseAdverts(scanner);
                     break;
                 case 2:
-                    viewProfile();
+                    if (viewProfile() == false){
+                        loggedIn = false;
+                        currentUser = null;
+                    }
                     break;
                 case 3:
                     browseUsers(scanner);
@@ -161,10 +170,119 @@ public class RealEstateApp {
         }
     }
 
-    // Method to view the profile of the currently logged-in user
-    static void viewProfile() {
-        String response = user_controller.getUserByUsernameAndPassword(currentUser.getUsername(), currentUser.getPassword());
+    static void myAdverts(){
+        String response = user_controller.getOwnedAdverts(currentUser.getId());
         System.out.println(response);
+    }
+
+    // Method to view the profile of the currently logged-in user
+    static boolean viewProfile() {
+        String response = user_controller.getUser(currentUser.getId());
+        System.out.println(response);
+        boolean loggedIn = true;
+        while (loggedIn){
+            System.out.println("----------------------");
+            System.out.println("This is your profile!");
+            System.out.println("Select option:");
+            System.out.println("1: My adverts");
+            System.out.println("2: Change profile info");
+            System.out.println("3: Log out");
+            System.out.println("4: Delete account");
+            System.out.println("0: Back to main menu");
+            System.out.print("Your choice: ");
+            int choice;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.next(); // Consume the invalid input
+                choice = -1;
+            }
+            switch (choice) {
+                case 1:
+                    myAdverts();
+                    break;
+                case 2:
+                    changeProfileInfo();
+                    break;
+                case 3:
+                    loggedIn = false;
+                    currentUser = null;
+                    break;
+                case 4:
+                    deleteAccount();
+                    loggedIn = false;
+                    currentUser = null;
+                    break;
+                case 0:
+                    loggedIn = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        return loggedIn;
+    }
+
+    static void deleteAccount(){
+        int current_id = currentUser.getId();
+        user_controller.deleteUser(current_id);
+    }
+
+    static void changeProfileInfo() {
+        int current_id = currentUser.getId();
+        String new_info = null;
+        System.out.println("- Edit profile -");
+        System.out.println("Select option:");
+        System.out.println("1: Change name");
+        System.out.println("2: Change surname");
+        System.out.println("3: Change gender");
+        System.out.println("4: Change date of birth");
+        System.out.println("5: Change phone number");
+        System.out.println("6: Change username");
+        System.out.println("7: Change password");
+        System.out.println("0: Cancel");
+        System.out.print("Your choice: ");
+        int choice;
+        try {
+            choice = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            scanner.next(); // Consume the invalid input
+            choice = -1;
+        }
+        scanner.nextLine(); // Consume the newline character
+
+        if ((choice < 7) && (choice > 0)) {
+            System.out.println("Enter new info:");
+            new_info = scanner.nextLine();
+        }
+        switch (choice) {
+            case 1:
+                user_controller.updateUser(current_id, "name", new_info);
+                break;
+            case 2:
+                user_controller.updateUser(current_id, "surname", new_info);
+                break;
+            case 3:
+                user_controller.updateUser(current_id, "gender", new_info);
+                break;
+            case 4:
+                user_controller.updateUser(current_id, "date_of_birth", new_info);
+                break;
+            case 5:
+                user_controller.updateUser(current_id, "phone_number", new_info);
+                break;
+            case 6:
+                user_controller.updateUser(current_id, "username", new_info);
+                break;
+            case 7:
+                user_controller.updateUser(current_id, "password", new_info);
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Invalid choice. You're back to your profile.");
+        }
+
     }
 
     // Method to browse users registered in the system

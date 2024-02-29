@@ -8,6 +8,8 @@ import repositories.interfaces.IUserRepository;
 
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +59,18 @@ public class UserRepository implements IUserRepository {
         return false;
     }
 
+    public ArrayList<Integer> turnToArrList(Array a) throws SQLException {
+        if (a != null){
+            Object[] arraya = (Object[]) a.getArray();
+            ArrayList<Integer> array_list = new ArrayList<>();
+            for (Object obj : arraya) {
+                array_list.add((Integer) obj);
+            }
+            return array_list;
+        }
+        return new ArrayList<>();
+    }
+
     // Method to retrieve a user from the database by ID
     @Override
     public User getUser(int id) {
@@ -64,18 +78,27 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id,name,surname,gender,date_of_birth FROM users WHERE id=?";
+            String sql = "SELECT * FROM users WHERE id=?";
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setInt(1, id);
 
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
+                Array a = rs.getArray("owned_adverts_ids");
+                Array b = rs.getArray("fav_adverts_ids");
+                Array c = rs.getArray("fav_adverts_ids");
+
+
                 return new User(rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getBoolean("gender"),
-                        rs.getDate("date_of_birth"));
+                        rs.getDate("date_of_birth"),
+                        rs.getLong("phone_number"),
+                        turnToArrList(a), turnToArrList(b), turnToArrList(c),
+                        rs.getString("username"),
+                        rs.getString("password"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("sql error: " + e.getMessage());
@@ -91,57 +114,37 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
-    // Method to retrieve a user from the database by username and password
+    // Method to get the last user by getting the one with max id
     @Override
-    public User getUserByUsernameAndPassword(String username, String password) {
+    public User getLastUser() {
         Connection con = null;
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id,name,surname,gender,date_of_birth,phone_number,owned_adverts_ids,fav_adverts_ids,reviews_ids,username,password FROM users WHERE username = ? and password = ?";
+            String sql = "SELECT * FROM users WHERE id = (SELECT MAX(id) FROM users)";
             PreparedStatement st = con.prepareStatement(sql);
-
-            st.setString(1, username);
-            st.setString(2, password);
 
             ResultSet rs = st.executeQuery();
 
 
             if (rs.next()) {
-
                 Array a = rs.getArray("owned_adverts_ids");
                 Array b = rs.getArray("fav_adverts_ids");
                 Array c = rs.getArray("fav_adverts_ids");
-                if (a != null && b != null && c != null) {
-                    Object[] arraya = (Object[]) a.getArray();
-                    Object[] arrayb = (Object[]) b.getArray();
-                    Object[] arrayc = (Object[]) c.getArray();
-                    ArrayList<Integer> owned_adverts = new ArrayList<>();
-                    ArrayList<Integer> fav_adverts = new ArrayList<>();
-                    ArrayList<Integer> reviews = new ArrayList<>();
-                    for (Object obj : arraya) {
-                        owned_adverts.add((Integer) obj);
-                    }
-                    for (Object obj : arrayb) {
-                        owned_adverts.add((Integer) obj);
-                    }
-                    for (Object obj : arrayc) {
-                        owned_adverts.add((Integer) obj);
-                    }
 
-                    User user = new User(rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getBoolean("gender"),
-                            rs.getDate("date_of_birth"),
-                            rs.getLong("phone_number"),
-                            owned_adverts, fav_adverts, reviews, rs.getString("username"),
-                            rs.getString("password"));
 
-                    return user;
-                }else{
-                    return null;
-                }
+                return new User(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getBoolean("gender"),
+                        rs.getDate("date_of_birth"),
+                        rs.getLong("phone_number"),
+                        turnToArrList(a), turnToArrList(b), turnToArrList(c),
+                        rs.getString("username"),
+                        rs.getString("password"));
+            }
+            else{
+                return null;
             }
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("sql error: " + e.getMessage());
@@ -155,6 +158,40 @@ public class UserRepository implements IUserRepository {
         }
 
         return null;
+    }
+
+    @Override
+    public void updateUser(int id, String column_name, String new_info){
+
+        Connection con = null;
+
+        try {
+            con = db.getConnection();
+            String sql = "update users set " + column_name + " = ? where id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            if (column_name == "gender") {
+                st.setBoolean(1, new_info.equalsIgnoreCase("male"));
+            }
+            else if (column_name == "date_of_birth") {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+                st.setDate(1, new Date(dateFormat.parse(new_info).getTime()));
+            } else if (column_name == "phone_number") {
+                st.setLong(1, Long.parseLong(new_info));
+            }
+            else {
+                st.setString(1, new_info);
+            }
+            st.setInt(2, id);
+
+            st.executeUpdate();
+            System.out.println("Hey, you changed your " + column_name + " to " + new_info + " !");
+
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("error: " + e.getMessage());
+        }
     }
 
     // Method to retrieve all users from the database
@@ -175,44 +212,20 @@ public class UserRepository implements IUserRepository {
                 Array a = rs.getArray("owned_adverts_ids");
                 Array b = rs.getArray("fav_adverts_ids");
                 Array c = rs.getArray("fav_adverts_ids");
-                if (a != null && b != null && c != null){
-                    Object[] arraya = (Object[]) a.getArray();
-                    Object[] arrayb = (Object[]) b.getArray();
-                    Object[] arrayc = (Object[]) c.getArray();
-                    ArrayList<Integer> owned_adverts = new ArrayList<>();
-                    ArrayList<Integer> fav_adverts = new ArrayList<>();
-                    ArrayList<Integer> reviews = new ArrayList<>();
-                    for (Object obj : arraya) {
-                        owned_adverts.add((Integer) obj);
-                    }
-                    for (Object obj : arrayb) {
-                        owned_adverts.add((Integer) obj);
-                    }
-                    for (Object obj : arrayc) {
-                        owned_adverts.add((Integer) obj);
-                    }
 
-                    User user = new User(rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getBoolean("gender"),
-                            rs.getDate("date_of_birth"),
-                            rs.getLong("phone_number"),
-                            owned_adverts, fav_adverts, reviews, rs.getString("username"),
-                            rs.getString("password"));
-                    users.add(user);
-                }
-                else{
-                    User user = new User(rs.getInt("id"),
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getBoolean("gender"),
-                            rs.getDate("date_of_birth"));
-                    users.add(user);
-                }
+
+                User user = new User(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getBoolean("gender"),
+                        rs.getDate("date_of_birth"),
+                        rs.getLong("phone_number"),
+                        turnToArrList(a), turnToArrList(b), turnToArrList(c),
+                        rs.getString("username"),
+                        rs.getString("password"));
+                users.add(user);
             }
-
-            return users;
+        return users;
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("sql error: " + e.getMessage());
         } finally {
@@ -232,11 +245,7 @@ public class UserRepository implements IUserRepository {
 
         try {
             con = db.getConnection();
-            String sql = "SELECT * FROM adverts WHERE id IN (\n" +
-                    "\tSELECT DISTINCT unnest(owned_adverts_ids) \n" +
-                    "    FROM users\n" +
-                    "    WHERE id = ?\n" +
-                    ")";
+            String sql = "SELECT * FROM adverts WHERE id IN (SELECT DISTINCT unnest(owned_adverts_ids) FROM users WHERE id = ?)";
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setInt(1,id);
@@ -248,31 +257,14 @@ public class UserRepository implements IUserRepository {
                 Array a = rs.getArray("photos_ids");
                 Array b = rs.getArray("reviews_ids");
 
-                if (a != null) {
-                    Object[] array_a = (Object[]) a.getArray();
-                    Object[] array_b = (Object[]) b.getArray();
-                    ArrayList<Integer> list_a = new ArrayList<>();
-                    ArrayList<Integer> list_b = new ArrayList<>();
-                    for (Object obj : array_a) {list_a.add((Integer) obj);}
-                    for (Object obj : array_b) {list_b.add((Integer) obj);}
-                    Advert advert = new Advert(rs.getInt("id"),
-                            rs.getString("address"),
-                            rs.getInt("price"),
-                            rs.getString(   "description"),
-                            list_a,list_b);
+                Advert advert = new Advert(rs.getInt("id"),
+                        rs.getString("address"),
+                        rs.getString("location"),
+                        rs.getInt("price"),
+                        rs.getString(   "description"),
+                        turnToArrList(a),turnToArrList(b));
 
-                    adverts.add(advert);
-                }
-                else {
-                    Advert advert = new Advert(rs.getInt("id"),
-                            rs.getString("address"),
-                            rs.getInt("price"),
-                            rs.getString("description"));
-
-                    adverts.add(advert);
-                }
-
-
+                adverts.add(advert);
             }
 
             return adverts;
@@ -289,9 +281,37 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
+
+
     @Override
     public List<Review> getMadeReviews() {
         return null;
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        Connection con = null;
+
+        try {
+            con = db.getConnection();
+            String sql = "DELETE FROM users WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setInt(1,id);
+
+            st.executeUpdate();
+            System.out.println("No more user with id: " + id + "... :_( Pomyanem");
+
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("sql error: " + e.getMessage());
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                System.out.println("sql error: " + e.getMessage());
+            }
+        }
     }
 }
 

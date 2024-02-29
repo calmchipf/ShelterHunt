@@ -22,15 +22,6 @@ public class User {
     private String username;
     private String password;
 
-    // Constructor to initialize a user with basic information
-    public User(int id, String name, String surname, boolean gender, Date date_of_birth) {
-        setId(id);
-        setName(name);
-        setSurname(surname);
-        setGender(gender);
-        setDate_of_birth(date_of_birth);
-    }
-
     // Constructor to initialize a user with login credentials and basic information
     public User(String username, String password, String name, String surname, boolean gender, Date date_of_birth) {
         setUsername(username);

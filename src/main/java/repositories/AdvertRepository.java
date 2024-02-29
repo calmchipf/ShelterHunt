@@ -35,7 +35,7 @@ public class AdvertRepository implements IAdvertRepository {
 
             st.executeUpdate();
 
-            int advertId = getIdOfAdvertByEverythingElse(advert.getAddress(), advert.getPrice(), advert.getDescription());
+            int advertId = getLastAdvert().getId();
 
             sql = "UPDATE users SET owned_adverts_ids = array_append(owned_adverts_ids, ?) WHERE id = ?";
             st = con.prepareStatement(sql);
@@ -64,6 +64,18 @@ public class AdvertRepository implements IAdvertRepository {
         return null;
     }
 
+    public ArrayList<Integer> turnToArrList(Array a) throws SQLException {
+        if (a != null){
+            Object[] arraya = (Object[]) a.getArray();
+            ArrayList<Integer> array_list = new ArrayList<>();
+            for (Object obj : arraya) {
+                array_list.add((Integer) obj);
+            }
+            return array_list;
+        }
+        return new ArrayList<>();
+    }
+
     // Method to retrieve all adverts from the database
     @Override
     public List<Advert> getAllAdverts() {
@@ -77,24 +89,16 @@ public class AdvertRepository implements IAdvertRepository {
             while (rs.next()) {
                 Array a = rs.getArray("photos_ids");
                 Array b = rs.getArray("reviews_ids");
-                if (a == null) {
-                    Advert advert = new Advert(rs.getInt("id"), rs.getString("address"), rs.getInt("price"), rs.getString("description"));
-                    adverts.add(advert);
-                } else {
-                    Object[] array_a = (Object[]) a.getArray();
-                    Object[] array_b = (Object[]) b.getArray();
-                    ArrayList<Integer> list_a = new ArrayList<>();
-                    ArrayList<Integer> list_b = new ArrayList<>();
-                    for (Object obj : array_a) {
-                        list_a.add((Integer) obj);
-                    }
-                    for (Object obj : array_b) {
-                        list_b.add((Integer) obj);
-                    }
-                    Advert advert = new Advert(rs.getInt("id"), rs.getString("address"), rs.getInt("price"), rs.getString("description"), list_a, list_b);
-                    adverts.add(advert);
+
+                Advert advert = new Advert(rs.getInt("id"),
+                        rs.getString("address"),
+                        rs.getString("location"),
+                        rs.getInt("price"),
+                        rs.getString(   "description"),
+                        turnToArrList(a),turnToArrList(b));
+
+                adverts.add(advert);
                 }
-            }
             return adverts;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -110,23 +114,29 @@ public class AdvertRepository implements IAdvertRepository {
         }
     }
 
-    // A very bad practice. But I have no idea how to make implement it otherwise, which makes me incredibly sad.
-    public int getIdOfAdvertByEverythingElse(String address, int price, String description){
+    // Method to get the last advert by getting the one with max id
+    public Advert getLastAdvert(){
         Connection con = null;
 
         try {
             con = db.getConnection();
-            String sql = "SELECT id FROM adverts WHERE address = ? and price = ? and description = ?";
+            String sql = "SELECT * FROM adverts WHERE id = (SELECT MAX(id) FROM adverts);\n";
             PreparedStatement st = con.prepareStatement(sql);
 
-            st.setString(1, address);
-            st.setInt(2, price);
-            st.setString(3, description);
-
             ResultSet rs = st.executeQuery();
+
+
             if (rs.next()) {
-                return rs.getInt("id");
-            }
+                Array a = rs.getArray("photos_ids");
+                Array b = rs.getArray("reviews_ids");
+
+                return new Advert(rs.getInt("id"),
+                        rs.getString("address"),
+                        rs.getString("location"),
+                        rs.getInt("price"),
+                        rs.getString(   "description"),
+                        turnToArrList(a),turnToArrList(b));
+                }
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("sql error: " + e.getMessage());
         } finally {
@@ -138,7 +148,7 @@ public class AdvertRepository implements IAdvertRepository {
             }
         }
 
-        return 0;
+        return null;
     }
 
 }

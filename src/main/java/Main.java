@@ -7,10 +7,6 @@ import repositories.UserRepository;
 import repositories.interfaces.IAdvertRepository;
 import repositories.interfaces.IUserRepository;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.ParseException;
 
 public class Main {
