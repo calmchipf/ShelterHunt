@@ -4,7 +4,6 @@ import data.PostgresDB;
 import data.interfaces.IDB;
 import entities.Advert;
 import entities.User;
-import repositories.AdvertRepository;
 
 import java.text.ParseException;
 import java.util.InputMismatchException;
@@ -129,7 +128,7 @@ public class RealEstateApp {
                     browseAdverts(scanner);
                     break;
                 case 2:
-                    if (viewProfile() == false){
+                    if (viewProfile() == false){  // If log out or account deletion was used, returns to log in menu
                         loggedIn = false;
                         currentUser = null;
                     }
@@ -170,6 +169,7 @@ public class RealEstateApp {
         }
     }
 
+    // Method to view all advert made by the current user
     static void myAdverts(){
         String response = user_controller.getOwnedAdverts(currentUser.getId());
         System.out.println(response);
@@ -223,11 +223,13 @@ public class RealEstateApp {
         return loggedIn;
     }
 
+    // Method to handle account deletion
     static void deleteAccount(){
         int current_id = currentUser.getId();
         user_controller.deleteUser(current_id);
     }
 
+    // Method to handle user info updates
     static void changeProfileInfo() {
         int current_id = currentUser.getId();
         String new_info = null;
@@ -251,7 +253,7 @@ public class RealEstateApp {
         }
         scanner.nextLine(); // Consume the newline character
 
-        if ((choice < 7) && (choice > 0)) {
+        if ((choice < 7) && (choice > 0)) {  // Ask for new info in case the choice is correct
             System.out.println("Enter new info:");
             new_info = scanner.nextLine();
         }

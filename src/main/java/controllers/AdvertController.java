@@ -22,6 +22,7 @@ public class AdvertController {
         this.currentIndex = 0;
     }
 
+    // Method to add an advert using the repository
     public boolean addAdvert(Advert advert, int userId){
         boolean advert_added = repo.addAdvert(advert, userId);
 

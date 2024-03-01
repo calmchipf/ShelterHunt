@@ -6,7 +6,6 @@ import entities.Review;
 import entities.User;
 import repositories.interfaces.IUserRepository;
 
-
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +58,7 @@ public class UserRepository implements IUserRepository {
         return false;
     }
 
+    // The best method here, that helps with parsing a SQL Array into an ArrayList <3
     public ArrayList<Integer> turnToArrList(Array a) throws SQLException {
         if (a != null){
             Object[] arraya = (Object[]) a.getArray();
@@ -160,6 +160,7 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
+    // Method to update user info by given id, column nam and new info
     @Override
     public void updateUser(int id, String column_name, String new_info){
 
@@ -239,6 +240,7 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
+    // Method to get all owned adverts of a specific user
     @Override
     public List<Advert> getOwnedAdverts(int id) {
         Connection con = null;
@@ -281,13 +283,13 @@ public class UserRepository implements IUserRepository {
         return null;
     }
 
-
-
+    // Method to get all made reviews by a specific user
     @Override
     public List<Review> getMadeReviews() {
         return null;
     }
 
+    // Method to handle user deletion by given id
     @Override
     public void deleteUser(int id) {
         Connection con = null;

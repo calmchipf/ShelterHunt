@@ -38,6 +38,7 @@ public class UserController {
         return (user == null ? "User was not found!" : user.toString());
     }
 
+    // Method to retrieve the last user from the repository
     public String getLastUser(){
         User user = repo.getLastUser();
 
@@ -62,10 +63,12 @@ public class UserController {
         return response.toString();
     }
 
+    // Method to update user info using the repository
     public void updateUser(int id, String choice, String new_info){
         repo.updateUser(id, choice, new_info);
     }
 
+    // Method for user deletion
     public void deleteUser(int id){
         repo.deleteUser(id);
     }
